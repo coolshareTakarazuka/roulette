@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>ルーレット</h2>
+    <h2 id="val"></h2>
+    <button id="start">スタート</button>
+    <button id="finish">ストップ</button>
+  </body>
+  <script>
+    const start = document.getElementById("start");
+    console.log(start);
+    start.addEventListener("click", function () {
+      const roulette = setInterval(function () {
+        const val = Math.floor(Math.random() * 100);
+        console.log(val);
+        document.getElementById("val").textContent = val;
+
+        const finish = document.getElementById("finish");
+        finish.addEventListener("click", function () {
+          clearInterval(roulette);
+        });
+      }, 100);
+    });
+
+    fetch(
+      "https://docs.google.com/spreadsheets/d/1Z8sDgL_xPxY3t-8hC7KDcvmRnhrGpRay-OHKD8IIyBc/export?format=csv&gid=0"
+    )
+      .then((res) => res.text())
+      .then((csvText) => {
+        const parsedData = Papa.parse(csvText, { header: true });
+        const dataArray = parsedData.data;
+
+        // 例：name4列だけを取り出す
+        const nameColumn = dataArray.map((row) => row.name);
+        console.log(nameColumn);
+      })
+      .catch((err) => console.error(err));
+  </script>
+</html>
