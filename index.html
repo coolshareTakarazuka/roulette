@@ -8,6 +8,7 @@
   </head>
   <body>
     <h2>ルーレット</h2>
+    <h2 id="gift"></h2>
     <h2 id="val"></h2>
     <button id="start">スタート</button>
     <button id="finish">ストップ</button>
@@ -15,6 +16,7 @@
   <script>
 
     let nameList = [];
+    let gift = "";
     fetch(
       "https://docs.google.com/spreadsheets/d/1Z8sDgL_xPxY3t-8hC7KDcvmRnhrGpRay-OHKD8IIyBc/export?format=csv&gid=0"
     )
@@ -28,6 +30,20 @@
         console.log(nameList);
       })
       .catch((err) => console.error(err));
+    
+    fetch(
+      "https://docs.google.com/spreadsheets/d/1Z8sDgL_xPxY3t-8hC7KDcvmRnhrGpRay-OHKD8IIyBc/export?format=csv&gid=0"
+    )
+    .then((response) => response.text())
+    .then((csvText) => {
+      const parsedData2 = Papa.parse(csvText, { header: true });
+      const storeData = parsedData2.data;
+
+      // A2セルの値（spot2列の1行目の値）を取得
+      const gift  = storeData[0]?.gift || "不明";
+      document.getElementById("gift").textContent = gift;
+      
+    });
 
     const start = document.getElementById("start");
     console.log(start);
