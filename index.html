@@ -13,6 +13,8 @@
     <button id="finish">ストップ</button>
   </body>
   <script>
+
+    let nameList = [];
     fetch(
       "https://docs.google.com/spreadsheets/d/1Z8sDgL_xPxY3t-8hC7KDcvmRnhrGpRay-OHKD8IIyBc/export?format=csv&gid=0"
     )
@@ -22,12 +24,11 @@
         const dataArray = parsedData.data;
 
         // 例：name4列だけを取り出す
-        let nameList = dataArray.map((row) => row.name);
-        console.log(nameColumn);
+        nameList = dataArray.map((row) => row.name);
+        console.log(nameList);
       })
       .catch((err) => console.error(err));
 
-    console.log(nameList);
     const start = document.getElementById("start");
     console.log(start);
     start.addEventListener("click", function () {
