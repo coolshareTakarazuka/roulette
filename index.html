@@ -13,21 +13,6 @@
     <button id="finish">ストップ</button>
   </body>
   <script>
-    const start = document.getElementById("start");
-    console.log(start);
-    start.addEventListener("click", function () {
-      const roulette = setInterval(function () {
-        const val = Math.floor(Math.random() * 100);
-        console.log(val);
-        document.getElementById("val").textContent = val;
-
-        const finish = document.getElementById("finish");
-        finish.addEventListener("click", function () {
-          clearInterval(roulette);
-        });
-      }, 100);
-    });
-
     fetch(
       "https://docs.google.com/spreadsheets/d/1Z8sDgL_xPxY3t-8hC7KDcvmRnhrGpRay-OHKD8IIyBc/export?format=csv&gid=0"
     )
@@ -37,9 +22,26 @@
         const dataArray = parsedData.data;
 
         // 例：name4列だけを取り出す
-        const nameColumn = dataArray.map((row) => row.name);
+        let nameList = dataArray.map((row) => row.name);
         console.log(nameColumn);
       })
       .catch((err) => console.error(err));
+
+    console.log(nameList);
+    const start = document.getElementById("start");
+    console.log(start);
+    start.addEventListener("click", function () {
+      const roulette = setInterval(function () {
+        const val = Math.floor(Math.random() * nameList.length);
+        const nameVal = nameList[val];
+        console.log(nameVal);
+        document.getElementById("val").textContent = nameVal;
+
+        const finish = document.getElementById("finish");
+        finish.addEventListener("click", function () {
+          clearInterval(roulette);
+        });
+      }, 100);
+    });
   </script>
 </html>
