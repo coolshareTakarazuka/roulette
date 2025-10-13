@@ -17,6 +17,7 @@
       </h2>
       <h2 id="gift"></h2>
       <h2 id="people"></h2>
+      <h2 id="applyNo"></h2>
       <h2 id="val"></h2>
       <button id="start">スタート</button>
       <button id="finish">ストップ</button>
@@ -37,7 +38,9 @@
 
     <script>
       let nameList = [];
+      let applyList = [];
       let gift = "";
+
       fetch(
         "https://docs.google.com/spreadsheets/d/1Z8sDgL_xPxY3t-8hC7KDcvmRnhrGpRay-OHKD8IIyBc/export?format=csv&gid=0"
       )
@@ -49,6 +52,20 @@
           // 例：name4列だけを取り出す
           nameList = dataArray.map((row) => row.name);
           console.log(nameList);
+        })
+        .catch((err) => console.error(err));
+
+      fetch(
+        "https://docs.google.com/spreadsheets/d/1Z8sDgL_xPxY3t-8hC7KDcvmRnhrGpRay-OHKD8IIyBc/export?format=csv&gid=0"
+      )
+        .then((res) => res.text())
+        .then((csvText) => {
+          const parsedData4 = Papa.parse(csvText, { header: true });
+          const dataArray2 = parsedData4.data;
+
+          // 例：name4列だけを取り出す
+          applyList = dataArray2.map((row) => row.applyNo);
+          console.log(applyList);
         })
         .catch((err) => console.error(err));
 
@@ -101,9 +118,11 @@
       start.addEventListener("click", function () {
         const roulette = setInterval(function () {
           const val = Math.floor(Math.random() * nameList.length);
+          const applyNo = "応募ID： " + applyList[val];
           const nameVal = nameList[val] + "様";
           document.getElementById("val").textContent = nameVal;
-          document.getElementById("winner").value = val;
+          document.getElementById("applyNo").textContent = applyNo;
+          document.getElementById("winner").value = applyList[val];
           document.getElementById("winnerName").value = nameList[val];
           audio1.play();
 
