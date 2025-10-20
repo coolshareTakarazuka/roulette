@@ -19,8 +19,8 @@
       <h2 id="people"></h2>
       <h2 id="applyNo"></h2>
       <h2 id="val"></h2>
-      <button id="start">スタート</button>
-      <button id="finish">ストップ</button>
+      <button id="start" class="start close">スタート</button>
+      <button id="finish" class="finish close">ストップ</button>
 
       <audio id="audio1" src="./ドラムロール.mp3"></audio>
       <audio id="audio2" src="./ロールの締め.mp3"></audio>
@@ -39,7 +39,16 @@
     <script>
       let nameList = [];
       let applyList = [];
-      let gift = "";
+
+      let start = document.getElementById("start");
+      let finish = document.getElementById("finish");
+
+      function checkReady() {
+        if (gift && nameList && applyList) {
+          start.classList.remove("close");
+          finish.classList.remove("close");
+        }
+      }
 
       fetch(
         "https://docs.google.com/spreadsheets/d/1Z8sDgL_xPxY3t-8hC7KDcvmRnhrGpRay-OHKD8IIyBc/export?format=csv&gid=0"
@@ -52,6 +61,7 @@
           // 例：name4列だけを取り出す
           nameList = dataArray.map((row) => row.name);
           console.log(nameList);
+          checkReady();
         })
         .catch((err) => console.error(err));
 
@@ -66,6 +76,7 @@
           // 例：name4列だけを取り出す
           applyList = dataArray2.map((row) => row.applyNo);
           console.log(applyList);
+          checkReady();
         })
         .catch((err) => console.error(err));
 
@@ -80,6 +91,7 @@
           // A2セルの値（spot2列の1行目の値）を取得
           const gift = storeData[0]?.gift || "不明";
           document.getElementById("gift").textContent = gift;
+          checkReady();
         });
 
       fetch(
@@ -111,7 +123,6 @@
         });
       }
 
-      const start = document.getElementById("start");
       const audio1 = document.getElementById("audio1");
       const audio2 = document.getElementById("audio2");
       console.log(start);
@@ -126,7 +137,6 @@
           document.getElementById("winnerName").value = nameList[val];
           audio1.play();
 
-          const finish = document.getElementById("finish");
           finish.addEventListener("click", function () {
             clearInterval(roulette);
             audio1.pause();
