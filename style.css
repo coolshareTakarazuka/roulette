@@ -15,7 +15,16 @@ div#roulette {
 }
 
 h2 {
-  font-size: 50px;
+  font-size: 40px;
+}
+
+h2#applyNo {
+  font-size: 40px;
+}
+
+h2#val,
+#gift {
+  font-size: 60px;
 }
 
 h2.txt {
@@ -73,12 +82,13 @@ button {
   padding: 10px;
   font-weight: bold;
   color: #fff;
+  margin: 30px;
 }
 
 button:hover {
   cursor: pointer;
   opacity: 0.85;
-  transform: scale(1.05);
+  transform: scale(1.5);
   transition: 0.2s;
 }
 
