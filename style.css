@@ -27,10 +27,7 @@ h2#val,
   font-size: 60px;
 }
 
-h2.txt {
-  color: blue;
-  font-size: 45px;
-}
+
 
 span {
   display: inline-block;
